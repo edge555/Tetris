@@ -7,6 +7,36 @@ BOX_SIZE=20
 SCREEN_WIDTH=640
 SCREEN_HEIGHT=480
 BOARD_WIDTH=10
+
+REV_Z_SHAPE = [['.....'
+                '.....'
+                '..cc.'
+                '.cc..'
+                '.....']]
+Z_SHAPE = [['.....'
+            '.....'
+            '.cc..'
+            '..cc.'
+            '.....']]
+
+I_SHAPE = [['..c..'
+            '..c..'
+            '..c..'
+            '..c..'
+            '.....']]
+
+L_SHAPE = [['..c..'
+            '..c..'
+            '..c..'
+            '..ccc'
+            '.....']]
+
+BOX_SHAPE = [['.....'
+              '.....'
+              '.cc..'
+              '.cc..'
+              '.....']]
+
 def run():
     pygame.init()
     window_size = (SCREEN_WIDTH,SCREEN_HEIGHT)
