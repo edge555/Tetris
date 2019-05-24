@@ -18,12 +18,16 @@ def run():
     piece = create_piece()
     while True:
         screen.fill((0,0,0))
+        #moving piece
         if(time.time()-last_time_move>1):
             piece['row'] += 1
             last_time_move = time.time()
         draw_piece(screen,piece)
-        pygame.draw.rect(screen,BLUE,[100,50,10*20,20*20+10],5)
+        pygame.draw.rect(screen,BLUE,[100,50,10*20+10,20*20+10],5)
         draw_board(screen,game_matrix)
+        #taking user input left or right
+        listen_to_user_input(game_matrix,piece)
+        #checking if piece is going out of board or collison with existing piece
         if(piece['row']==19 or game_matrix[piece['row']+1][piece['column']]!='.'):
             game_matrix[piece['row']][piece['column']] = 'c'
             piece=create_piece()
@@ -31,6 +35,21 @@ def run():
         for event in pygame.event.get(QUIT):
             pygame.quit()
             sys.exit()
+
+def listen_to_user_input(game_matrix,piece):
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if(event.key== pygame.K_LEFT and valid_position(game_matrix,piece['row'],piece['column']-1)):
+                piece['column'] -= 1
+            elif(event.key == pygame.K_RIGHT and valid_position(game_matrix,piece['row'],piece['column']+1)):
+                piece['column'] +=1
+            elif(event.key == pygame.K_DOWN):
+                piece['row'] +=1
+
+def valid_position(game_matrix,row,column):
+    if row>19 or column<0 or column>9  or game_matrix[row][column]=='c':
+        return False
+    return True
 
 def draw_board(screen,matrix):
     matrix_row = 20
