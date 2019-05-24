@@ -1,4 +1,4 @@
-import pygame, sys, time
+import pygame, sys, time, random
 from pygame.locals import QUIT
 BLUE=(0,0,155)
 WHITE=(255,255,255)
@@ -13,6 +13,7 @@ REV_Z_SHAPE = [['.....'
                 '..cc.'
                 '.cc..'
                 '.....']]
+
 Z_SHAPE = [['.....'
             '.....'
             '.cc..'
@@ -37,6 +38,15 @@ BOX_SHAPE = [['.....'
               '.cc..'
               '.....']]
 
+def availble_piece():
+    return {
+        'Z':Z_SHAPE,
+        'z':REV_Z_SHAPE,
+        'I':I_SHAPE,
+        'B':BOX_SHAPE,
+        'L':L_SHAPE
+    }
+
 def run():
     pygame.init()
     window_size = (SCREEN_WIDTH,SCREEN_HEIGHT)
@@ -49,7 +59,7 @@ def run():
     while True:
         screen.fill((0,0,0))
         #moving piece
-        if(time.time()-last_time_move>1):
+        if(time.time()-last_time_move>0.4):
             piece['row'] += 1
             last_time_move = time.time()
         draw_piece(screen,piece)
@@ -58,12 +68,14 @@ def run():
         show_score(screen,score)
         #taking user input left or right
         listen_to_user_input(game_matrix,piece)
+
         #checking if piece is going out of board or collison with existing piece
         if(piece['row']==19 or game_matrix[piece['row']+1][piece['column']]!='.'):
             game_matrix[piece['row']][piece['column']] = 'c'
             lines_removed=remove_line(game_matrix)
             score += lines_removed
             piece=create_piece()
+
         pygame.display.update()
         for event in pygame.event.get(QUIT):
             pygame.quit()
@@ -119,9 +131,18 @@ def draw_board(screen,matrix):
 
 def create_piece():
     piece = {}
+    random_shape = random.choice(list(availble_piece().keys()))
+    piece['shape'] = random_shape
     piece['row'] = 0
-    piece['column'] = 4
+    piece['column'] = 2
     return piece
+
+def draw_big_piece(screen ,piece):
+    shape_to_draw = availble_piece()[piece['shape']][0]
+    for row in range(5):
+        for column in range(5):
+            if(shape_to_draw[row][column]=='c'):
+                draw_single_piece(screen,piece['row']+row,piece['column']+column,WHITE,GREY)
 
 def draw_single_piece(screen,row,column,color,color2):
     origin_x = 100+5+(column*20+1)
@@ -134,6 +155,13 @@ def draw_piece(screen,piece):
     origin_y = 50+5+(piece['row']*20+1)
     pygame.draw.rect(screen,GREY,[origin_x,origin_y,20,20])
     pygame.draw.rect(screen,WHITE,[origin_x,origin_y,18,18])
+
+def update_matrix(matrix,piece):
+    for row in range(5):
+        for column in range(5):
+            if(availble_piece()[piece['shape']][0][row][column]=='c'):
+                matrix[piece['row']+row][piece['column']+column]='c'
+    return matrix
 
 def create_game_matrix():
     game_matrix_columns = 10
