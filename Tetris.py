@@ -1,4 +1,5 @@
 import pygame, sys, time
+#from pygame.examples.headless_no_windows_needed import screen
 from pygame.locals import QUIT
 BLUE=(0,0,155)
 WHITE=(255,255,255)
@@ -7,7 +8,6 @@ BOX_SIZE=20
 SCREEN_WIDTH=640
 SCREEN_HEIGHT=480
 BOARD_WIDTH=10
-
 def run():
     pygame.init()
     window_size = (SCREEN_WIDTH,SCREEN_HEIGHT)
@@ -16,6 +16,7 @@ def run():
     game_matrix = create_game_matrix()
     last_time_move = time.time()
     piece = create_piece()
+    score = 0
     while True:
         screen.fill((0,0,0))
         #moving piece
@@ -30,11 +31,18 @@ def run():
         #checking if piece is going out of board or collison with existing piece
         if(piece['row']==19 or game_matrix[piece['row']+1][piece['column']]!='.'):
             game_matrix[piece['row']][piece['column']] = 'c'
+            lines_removed=remove_line(game_matrix)
+            score += lines_removed
             piece=create_piece()
         pygame.display.update()
         for event in pygame.event.get(QUIT):
             pygame.quit()
             sys.exit()
+
+def show_score(score):
+    myfont = pygame.font.Font('font-to_use.ttf',10)
+    text_surface = myfont.render('score',True,WHITE)
+    #screen.blit(text_surface,(100,100))
 
 def listen_to_user_input(game_matrix,piece):
     for event in pygame.event.get():
@@ -45,6 +53,24 @@ def listen_to_user_input(game_matrix,piece):
                 piece['column'] +=1
             elif(event.key == pygame.K_DOWN):
                 piece['row'] +=1
+
+def remove_line(game_matrix):
+    line_removed = 0
+    for row in range(20):
+        if(line_complete(game_matrix,row)):
+            for row_to_shift in range(row,0,-1):
+                for column in range(10):
+                    game_matrix[row_to_shift][column] = game_matrix[row_to_shift-1][column]
+            for i in range(10):
+                game_matrix[0][i] = '.'
+            line_removed += 1
+    return line_removed
+
+def line_complete(game_matrix,row):
+    for column in range(10):
+        if(game_matrix[row][column]=='.'):
+            return False
+    return True
 
 def valid_position(game_matrix,row,column):
     if row>19 or column<0 or column>9  or game_matrix[row][column]=='c':
