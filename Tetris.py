@@ -1,5 +1,4 @@
 import pygame, sys, time
-#from pygame.examples.headless_no_windows_needed import screen
 from pygame.locals import QUIT
 BLUE=(0,0,155)
 WHITE=(255,255,255)
@@ -26,6 +25,7 @@ def run():
         draw_piece(screen,piece)
         pygame.draw.rect(screen,BLUE,[100,50,10*20+10,20*20+10],5)
         draw_board(screen,game_matrix)
+        show_score(screen,score)
         #taking user input left or right
         listen_to_user_input(game_matrix,piece)
         #checking if piece is going out of board or collison with existing piece
@@ -39,10 +39,10 @@ def run():
             pygame.quit()
             sys.exit()
 
-def show_score(score):
-    myfont = pygame.font.Font('font-to_use.ttf',10)
-    text_surface = myfont.render('score',True,WHITE)
-    #screen.blit(text_surface,(100,100))
+def show_score(screen,score):
+    myfont = pygame.font.Font('freesansbold.ttf',18)
+    text_surface = myfont.render('Score: %s' % score,True,WHITE)
+    screen.blit(text_surface,(500,20))
 
 def listen_to_user_input(game_matrix,piece):
     for event in pygame.event.get():
@@ -52,6 +52,8 @@ def listen_to_user_input(game_matrix,piece):
             elif(event.key == pygame.K_RIGHT and valid_position(game_matrix,piece['row'],piece['column']+1)):
                 piece['column'] +=1
             elif(event.key == pygame.K_DOWN):
+                piece['row'] +=2
+            elif(event.key == pygame.K_UP):
                 piece['row'] +=1
 
 def remove_line(game_matrix):
@@ -68,7 +70,7 @@ def remove_line(game_matrix):
 
 def line_complete(game_matrix,row):
     for column in range(10):
-        if(game_matrix[row][column]=='.'):
+        if(game_matrix[row][column] == '.'):
             return False
     return True
 
