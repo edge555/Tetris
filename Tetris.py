@@ -1,5 +1,5 @@
 import pygame, sys, time, random
-from pygame.locals import QUIT
+from pygame.locals import QUIT, KEYDOWN, K_LEFT, K_RIGHT,K_UP,K_DOWN,K_a,K_d
 BLUE=(0,0,155)
 WHITE=(255,255,255)
 GREY=(217,222,226)
@@ -90,7 +90,7 @@ def run():
     while True:
         screen.fill((0,0,0))
         #moving piece
-        if(time.time()-last_time_move>0.3):
+        if(time.time()-last_time_move>0.6):
             piece['row'] += 1
             last_time_move = time.time()
         draw_big_piece(screen,piece)
@@ -111,16 +111,18 @@ def run():
         for event in pygame.event.get(QUIT):
             pygame.quit()
             sys.exit()
+
 def create_piece():
     piece = {}
     random_shape = random.choice(list(availble_piece().keys()))
     piece['shape'] = random_shape
+    piece['rotation'] = 0
     piece['row'] = 0
     piece['column'] = 2
     return piece
 
 def draw_big_piece(screen ,piece):
-    shape_to_draw = availble_piece()[piece['shape']][0]
+    shape_to_draw = availble_piece()[piece['shape']][piece['rotation']]
     for row in range(5):
         for col in range(5):
             if(shape_to_draw[row][col]=='c'):
@@ -129,12 +131,12 @@ def draw_big_piece(screen ,piece):
 def update_matrix(matrix,piece):
     for row in range(5):
         for col in range(5):
-            if(availble_piece()[piece['shape']][0][row][col]=='c'):
-                matrix[piece['row']+row][piece['column']+col]='c'
+            if(availble_piece()[piece['shape']][piece['rotation']][row][col] == 'c'):
+                matrix[piece['row']+row][piece['column']+col] = 'c'
     return matrix
 
 def valid_position(game_matrix,piece,adjc=0,adjr=0):
-    piece_matrix = availble_piece()[piece['shape']][0]
+    piece_matrix = availble_piece()[piece['shape']][piece['rotation']]
     for row in range(5):
         for col in range(5):
             if(piece_matrix[row][col]=='.'):
@@ -174,11 +176,14 @@ def listen_to_user_input(game_matrix,piece):
             if(event.key== pygame.K_LEFT and valid_position(game_matrix,piece,adjc = -1)):
                 piece['column'] -= 1
             elif(event.key == pygame.K_RIGHT and valid_position(game_matrix,piece,adjc = 1)):
-                piece['column'] +=1
+                piece['column'] += 1
             elif(event.key == pygame.K_DOWN):
-                piece['row'] +=2
+                piece['row'] += 1
             elif(event.key == pygame.K_UP):
-                piece['row'] +=1
+                piece['rotation'] = (piece['rotation']+1) % len(availble_piece()[piece['shape']])
+                if not valid_position(game_matrix, piece):
+                     piece['rotation'] = (piece['rotation']-1) % len(availble_piece()[piece['shape']])
+                return
 
 def inside_board(row,column):
     return column >=0 and column < 10 and row < 20
