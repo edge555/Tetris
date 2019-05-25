@@ -101,11 +101,15 @@ def run():
     piece = create_piece()
     score = 0
     NOW = 0
+    DELAY = 1.0
 
     while True:
         screen.fill((0,0,0))
-
-        if(time.time()-last_time_move>0.6):
+        if score > 5:
+            DELAY = 0.8
+        elif score > 10:
+            DELAY = 0.6
+        if(time.time()-last_time_move > DELAY):
             piece['row'] += 1
             last_time_move = time.time()
         NOW += 1
@@ -149,7 +153,7 @@ def draw_big_piece(screen ,piece, color):
     for row in range(5):
         for col in range(5):
             if(shape_to_draw[row][col]=='c'):
-                draw_single_piece(screen,piece['row']+row,piece['column']+col,color,GREY)
+                draw_single_piece(screen,piece['row']+row,piece['column']+col,GREY,color)
 
 def update_matrix(matrix,piece):
     for row in range(5):
