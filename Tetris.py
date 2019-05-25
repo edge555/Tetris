@@ -81,10 +81,60 @@ def run():
             pygame.quit()
             sys.exit()
 
-def show_score(screen,score):
-    myfont = pygame.font.Font('freesansbold.ttf',18)
-    text_surface = myfont.render('Score: %s' % score,True,WHITE)
-    screen.blit(text_surface,(500,20))
+def create_game_matrix():
+    game_matrix_columns = 10
+    game_matrix_rows = 20
+    matrix = []
+    for row in range(game_matrix_rows):
+        new_row = []
+        for column in range(game_matrix_columns):
+            new_row.append('.')
+        matrix.append(new_row)
+    return matrix
+
+def create_piece():
+    piece = {}
+    random_shape = random.choice(list(availble_piece().keys()))
+    piece['shape'] = random_shape
+    piece['row'] = 0
+    piece['column'] = 2
+    return piece
+
+def draw_board(screen,matrix):
+    matrix_row = 20
+    matrix_column = 10
+    for row in range(matrix_row):
+        for column in range(matrix_column):
+            if(matrix[row][column] == 'c'):
+                draw_single_piece(screen,row,column,WHITE,GREY)
+
+def draw_big_piece(screen ,piece):
+    shape_to_draw = availble_piece()[piece['shape']][0]
+    for row in range(5):
+        for column in range(5):
+            if(shape_to_draw[row][column]=='c'):
+                draw_single_piece(screen,piece['row']+row,piece['column']+column,WHITE,GREY)
+
+def draw_single_piece(screen,row,column,color,color2):
+    origin_x = 100+5+(column*20+1)
+    origin_y = 50+5+(row*20+1)
+    pygame.draw.rect(screen,color,[origin_x,origin_y,20,20])
+    pygame.draw.rect(screen,color2,[origin_x,origin_y,18,18])
+
+def draw_piece(screen,piece):
+    origin_x = 100+5+(piece['column']*20+1)
+    origin_y = 50+5+(piece['row']*20+1)
+    pygame.draw.rect(screen,GREY,[origin_x,origin_y,20,20])
+    pygame.draw.rect(screen,WHITE,[origin_x,origin_y,18,18])
+
+def inside_board(row,column):
+    return column >=0 and column < 10 and row < 20
+
+def line_complete(game_matrix,row):
+    for column in range(10):
+        if(game_matrix[row][column] == '.'):
+            return False
+    return True
 
 def listen_to_user_input(game_matrix,piece):
     for event in pygame.event.get():
@@ -110,51 +160,15 @@ def remove_line(game_matrix):
             line_removed += 1
     return line_removed
 
-def line_complete(game_matrix,row):
-    for column in range(10):
-        if(game_matrix[row][column] == '.'):
-            return False
-    return True
+def show_score(screen,score):
+    myfont = pygame.font.Font('freesansbold.ttf',18)
+    text_surface = myfont.render('Score: %s' % score,True,WHITE)
+    screen.blit(text_surface,(500,20))
 
 def valid_position(game_matrix,row,column):
     if row>19 or column<0 or column>9  or game_matrix[row][column]=='c':
         return False
     return True
-
-def draw_board(screen,matrix):
-    matrix_row = 20
-    matrix_column = 10
-    for row in range(matrix_row):
-        for column in range(matrix_column):
-            if(matrix[row][column] == 'c'):
-                draw_single_piece(screen,row,column,WHITE,GREY)
-
-def create_piece():
-    piece = {}
-    random_shape = random.choice(list(availble_piece().keys()))
-    piece['shape'] = random_shape
-    piece['row'] = 0
-    piece['column'] = 2
-    return piece
-
-def draw_big_piece(screen ,piece):
-    shape_to_draw = availble_piece()[piece['shape']][0]
-    for row in range(5):
-        for column in range(5):
-            if(shape_to_draw[row][column]=='c'):
-                draw_single_piece(screen,piece['row']+row,piece['column']+column,WHITE,GREY)
-
-def draw_single_piece(screen,row,column,color,color2):
-    origin_x = 100+5+(column*20+1)
-    origin_y = 50+5+(row*20+1)
-    pygame.draw.rect(screen,color,[origin_x,origin_y,20,20])
-    pygame.draw.rect(screen,color2,[origin_x,origin_y,18,18])
-
-def draw_piece(screen,piece):
-    origin_x = 100+5+(piece['column']*20+1)
-    origin_y = 50+5+(piece['row']*20+1)
-    pygame.draw.rect(screen,GREY,[origin_x,origin_y,20,20])
-    pygame.draw.rect(screen,WHITE,[origin_x,origin_y,18,18])
 
 def update_matrix(matrix,piece):
     for row in range(5):
@@ -163,14 +177,4 @@ def update_matrix(matrix,piece):
                 matrix[piece['row']+row][piece['column']+column]='c'
     return matrix
 
-def create_game_matrix():
-    game_matrix_columns = 10
-    game_matrix_rows = 20
-    matrix = []
-    for row in range(game_matrix_rows):
-        new_row = []
-        for column in range(game_matrix_columns):
-            new_row.append('.')
-        matrix.append(new_row)
-    return matrix
 run()
