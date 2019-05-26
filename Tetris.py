@@ -1,5 +1,4 @@
 import pygame, sys, time, random
-from pygame.locals import QUIT, KEYDOWN, K_LEFT, K_RIGHT,K_UP,K_DOWN,K_a,K_d
 BLUE=(0,0,155)
 GREEN=(0,255,0)
 RED=(255,0,0)
@@ -9,7 +8,6 @@ BOX_SIZE=20
 SCREEN_WIDTH=640
 SCREEN_HEIGHT=480
 BOARD_WIDTH=10
-
 
 TWO_DOT_SHAPE = [['.....',
                   '.....',
@@ -84,6 +82,7 @@ BOX_SHAPE = [['.....',
 
 def availble_piece():
     return {
+        'D':TWO_DOT_SHAPE,
         'Z':Z_SHAPE,
         'z':REV_Z_SHAPE,
         'I':I_SHAPE,
@@ -101,14 +100,15 @@ def run():
     piece = create_piece()
     score = 0
     NOW = 0
-    DELAY = 1.0
+    DELAY = 0.9
+    running = True
 
-    while True:
+    while running:
         screen.fill((0,0,0))
         if score > 5:
-            DELAY = 0.8
+            DELAY = 0.85
         elif score > 10:
-            DELAY = 0.6
+            DELAY = 0.65
         if(time.time()-last_time_move > DELAY):
             piece['row'] += 1
             last_time_move = time.time()
@@ -135,9 +135,6 @@ def run():
             piece = create_piece()
 
         pygame.display.update()
-        for event in pygame.event.get(QUIT):
-            pygame.quit()
-            sys.exit()
 
 def create_piece():
     piece = {}
@@ -200,7 +197,9 @@ def line_complete(game_matrix,row):
 def listen_to_user_input(game_matrix,piece):
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if(event.key== pygame.K_LEFT and valid_position(game_matrix,piece,adjc = -1)):
+            if event.key == pygame.K_q:
+                exit(0)
+            elif(event.key== pygame.K_LEFT and valid_position(game_matrix,piece,adjc = -1)):
                 piece['column'] -= 1
             elif(event.key == pygame.K_RIGHT and valid_position(game_matrix,piece,adjc = 1)):
                 piece['column'] += 1

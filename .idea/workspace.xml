@@ -15,11 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Tetris.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="100" column="24" lean-forward="true" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="196" column="36" lean-forward="true" selection-start-line="196" selection-start-column="36" selection-end-line="196" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -44,9 +41,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="950" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+    <option name="x" value="952" />
+    <option name="width" value="977" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -111,14 +108,14 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="760" y="0" width="784" height="832" extended-state="0" />
+    <frame x="762" y="0" width="781" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10026738" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10067114" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.33333334" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15775034" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15818432" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39889959" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -143,11 +140,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Tetris.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="100" column="24" lean-forward="true" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="196" column="36" lean-forward="true" selection-start-line="196" selection-start-column="36" selection-end-line="196" selection-end-column="36" />
         </state>
       </provider>
     </entry>
