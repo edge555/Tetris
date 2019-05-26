@@ -204,7 +204,6 @@ def draw_big_piece(screen ,piece, color):
             if(shape_to_draw[row][col]=='c'):
                 draw_single_piece(screen,piece['row']+row,piece['column']+col,GREY,color)
 
-
 def inside_board(row,column):
     return column >=0 and column < 10 and row < 20
 
@@ -242,7 +241,6 @@ def remove_line(game_matrix):
                 game_matrix[0][i] = '.'
             line_removed += 1
     return line_removed
-
 
 def show_score(screen,score):
     myfont = pygame.font.Font('freesansbold.ttf',18)
