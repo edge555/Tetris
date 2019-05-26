@@ -5,7 +5,7 @@ RED=(255,0,0)
 WHITE=(255,255,255)
 GREY=(217,222,226)
 BOX_SIZE=20
-SCREEN_WIDTH=640
+SCREEN_WIDTH=440
 SCREEN_HEIGHT=480
 BOARD_WIDTH=10
 
@@ -131,6 +131,11 @@ def run():
             DELAY = 0.85
         elif score > 10:
             DELAY = 0.65
+        elif score > 15:
+            DELAY = 0.60
+        elif score > 20:
+            DELAY = 0.55
+
         if(time.time()-last_time_move > DELAY):
             piece['row'] += 1
             last_time_move = time.time()
@@ -157,6 +162,7 @@ def run():
             piece = create_piece()
 
         pygame.display.update()
+
 
 def create_piece():
     piece = {}
@@ -196,7 +202,7 @@ def valid_position(game_matrix,piece,adjc=0,adjr=0):
 def show_score(screen,score):
     myfont = pygame.font.Font('freesansbold.ttf',18)
     text_surface = myfont.render('Score: %s' % score,True,WHITE)
-    screen.blit(text_surface,(500,20))
+    screen.blit(text_surface,(350,20))
 
 def remove_line(game_matrix):
     line_removed = 0
@@ -262,3 +268,4 @@ def create_game_matrix():
     return matrix
 
 run()
+exit(0)
