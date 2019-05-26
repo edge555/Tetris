@@ -9,6 +9,27 @@ SCREEN_WIDTH=640
 SCREEN_HEIGHT=480
 BOARD_WIDTH=10
 
+T_SHAPE = [['.....',
+            '.....',
+            '..c..',
+            '.ccc.',
+            '.....'],
+           ['.....',
+            '.....',
+            '..c..',
+            '..cc.',
+            '..c..'],
+           ['.....',
+            '.....',
+            '.ccc.',
+            '..c..',
+            '.....'],
+           ['.....',
+            '..c..',
+            '.cc..',
+            '..c..',
+            '.....']]
+
 TWO_DOT_SHAPE = [['.....',
                   '.....',
                   '..cc.',
@@ -82,6 +103,7 @@ BOX_SHAPE = [['.....',
 
 def availble_piece():
     return {
+        'T':T_SHAPE,
         'D':TWO_DOT_SHAPE,
         'Z':Z_SHAPE,
         'z':REV_Z_SHAPE,
